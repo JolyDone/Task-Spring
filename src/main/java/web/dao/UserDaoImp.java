@@ -12,28 +12,28 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class UserDaoImp {
+public class UserDaoImp implements UserDao{
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional(readOnly = true)
+    @Override
     public List<User> findAll(){
         return entityManager.createQuery("from User", User.class)
                 .getResultList();
     }
 
-    @Transactional(readOnly = true)
+    @Override
     public User find(long id){
         return entityManager.find(User.class, id);
     }
 
-    @Transactional
+    @Override
     public void save(User user){
         entityManager.persist(user);
     }
 
-    @Transactional
+    @Override
     public void delete(long uid){
         User user = entityManager.find(User.class, uid);
         if(user!=null){
@@ -41,7 +41,7 @@ public class UserDaoImp {
         }
     }
 
-    @Transactional
+    @Override
     public void update(long id, User user){
         User updateUser = entityManager.find(User.class, id);
         if(updateUser!=null){
